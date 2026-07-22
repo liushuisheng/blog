@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ArticleCard from '../../components/ArticleCard.astro';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a, b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title="文章" description="前端工程、AI 应用开发与真实项目实践文章。">
+  <header class="container page-hero"><h1 class="page-title">从问题出发，<br />把结论写清楚。</h1><p>共 {posts.length} 篇公开文章。</p></header>
+  <section class="container section"><div class="grid">{posts.map((post) => <ArticleCard post={post} />)}</div></section>
+</BaseLayout>
+<style>.page-hero{padding:64px 0 12px}.page-hero p:last-child{color:var(--muted)}@media(max-width:720px){.page-hero{padding:42px 0 4px}.page-hero p:last-child{font-size:.9rem}}</style>

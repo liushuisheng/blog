@@ -1,0 +1,12 @@
+---
+import LegacyRedirect from '../../../../components/LegacyRedirect.astro';
+export function getStaticPaths() {
+  return [
+    { params: { slug: 'hello-world' }, props: { target: '/blog/hello-world/' } },
+    { params: { slug: '随便整点啥' }, props: { target: '/blog/' } },
+    { params: { slug: '测试一下草稿布局' }, props: { target: '/blog/' } }
+  ];
+}
+const { target } = Astro.props;
+---
+<LegacyRedirect target={target} />

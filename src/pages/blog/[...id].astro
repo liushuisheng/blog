@@ -1,0 +1,19 @@
+---
+import { getCollection, render } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { withBase } from '../../data/site';
+export async function getStaticPaths() {
+  return (await getCollection('blog', ({ data }) => !data.draft)).map((post) => ({ params: { id: post.id }, props: { post } }));
+}
+const { post } = Astro.props;
+const { Content } = await render(post);
+const format = (date: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'long' }).format(date);
+---
+<BaseLayout title={post.data.title} description={post.data.description} type="article">
+  <article class="container article">
+    <a class="back" href={withBase('/blog/')}>← 返回文章</a>
+    <header><div class="tags">{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div><h1 class="page-title">{post.data.title}</h1><p class="description">{post.data.description}</p><div class="meta"><span>发布于 {format(post.data.publishedAt)}</span>{post.data.updatedAt && <span>更新于 {format(post.data.updatedAt)}</span>}{post.data.aiAssisted && <span>AI 辅助，人工校验</span>}</div></header>
+    <div class="prose"><Content /></div>
+  </article>
+</BaseLayout>
+<style>.article{padding:54px 0}.back{color:var(--muted)}header{max-width:850px;margin:46px 0 40px}.tags{display:flex;gap:8px;margin-bottom:16px}.description{font-size:1.05rem;color:var(--muted);max-width:720px}.meta{display:flex;flex-wrap:wrap;gap:15px;margin-top:20px;color:var(--muted);font-size:.82rem}.prose{padding-top:32px;border-top:1px solid var(--line)}@media(max-width:720px){.article{padding:32px 0 44px}.back{display:inline-flex;align-items:center;min-height:40px}header{margin:27px 0 28px}.tags{flex-wrap:wrap}.description{font-size:.95rem;line-height:1.75}.meta{gap:6px 14px;font-size:.76rem}.prose{padding-top:22px}}</style>

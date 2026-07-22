@@ -1,0 +1,11 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import ProjectCard from '../../components/ProjectCard.astro';
+const projects = (await getCollection('projects')).sort((a, b) => b.data.year - a.data.year);
+---
+<BaseLayout title="作品集" description="刘水生参与设计与实现的前端、AI 应用及个人项目。">
+  <header class="container page-hero"><h1 class="page-title">项目与实现。</h1><p>背景、职责、技术选择和结果。</p></header>
+  <section class="container section"><div class="grid">{projects.map((project, index) => <ProjectCard project={project} index={index} />)}</div></section>
+</BaseLayout>
+<style>.page-hero { padding: 64px 0 12px; }.page-hero p:last-child { max-width: 620px; color: var(--muted); font-size: 1rem; }@media(max-width:720px){.page-hero{padding:42px 0 4px}.page-hero p:last-child{font-size:.9rem}}</style>
