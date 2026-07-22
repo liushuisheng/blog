@@ -6,7 +6,7 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a,b
 ---
 <BaseLayout title="归档" description="按照时间浏览全部文章。">
   <section class="container archive">
-    <header class="archive-hero">
+    <header class="archive-hero page-hero">
       <h1 class="page-title">全部文章</h1>
       <p>{posts.length} 篇文章，按发布时间排列。</p>
       <i aria-hidden="true"></i>
@@ -34,8 +34,8 @@ const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a,b
   .list a>span{position:relative;z-index:1;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;color:#16845f;background:#fff;box-shadow:0 10px 24px rgba(24,65,48,.08);transition:transform .2s}
   .list a:hover>span{transform:translate(3px,-3px)}
   @media(max-width:720px){
-    .archive{padding:18px 0 48px}.archive-hero{overflow:hidden;min-height:0;padding:28px 22px 25px;border-radius:24px;background:linear-gradient(145deg,#edf9f3,#f7f5ff 65%,#f8ffe9);box-shadow:0 18px 48px rgba(26,72,52,.07)}
+    .archive{padding:18px 0 48px}.archive-hero{min-height:0}
     .archive-hero>span{display:none}.archive-hero .page-title{margin:0;font-size:2.25rem;line-height:1.05}.archive-hero p{margin-top:10px;font-size:.85rem}.archive-hero i{width:135px;height:135px;right:-45px;top:-55px}
-    .archive-hero i{display:block}.list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}.list a{position:relative;overflow:hidden;grid-template-columns:1fr;gap:8px 14px;min-height:112px;padding:20px;border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbf8);box-shadow:0 16px 40px rgba(24,65,48,.07)}.list a:nth-child(even){background:linear-gradient(145deg,#fff,#f7f5ff)}.list a:hover{transform:none}.list time{width:max-content;padding:5px 9px;border-radius:8px;color:#527064;background:#eaf8f1;font-size:.72rem}.list a:nth-child(even) time{color:#645f8c;background:#f0eeff}.list strong{font-size:1rem}
+    .archive-hero i{position:absolute;display:block}.list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}.list a{position:relative;overflow:hidden;grid-template-columns:1fr;gap:8px 14px;min-height:112px;padding:20px;border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbf8);box-shadow:0 16px 40px rgba(24,65,48,.07)}.list a:nth-child(even){background:linear-gradient(145deg,#fff,#f7f5ff)}.list a:hover{transform:none}.list time{width:max-content;padding:5px 9px;border-radius:8px;color:#527064;background:#eaf8f1;font-size:.72rem}.list a:nth-child(even) time{color:#645f8c;background:#f0eeff}.list strong{font-size:1rem}
   }
 </style>

@@ -17,5 +17,6 @@ export const site = {
 
 export const withBase = (path: string) => {
   const normalized = path.startsWith('/') ? path : `/${path}`;
-  return `/blog${normalized === '/' ? '/' : normalized}`;
+  const base = import.meta.env.DEV ? '' : '/blog';
+  return `${base}${normalized === '/' ? '/' : normalized}`;
 };

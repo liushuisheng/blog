@@ -11,14 +11,14 @@ const stackName: Record<string, string> = { Astro: '静态网站', TypeScript: '
 ---
 <BaseLayout>
   <section class="intro container reveal">
-    <div class="intro-copy">
+    <div class="intro-copy" data-parallax="-0.13">
       <div class="availability"><i></i><span>AI 全栈开发者</span></div>
       <h1>AI 应用开发，<br /><span>项目和笔记。</span></h1>
       <p>做项目，写技术笔记。</p>
       <div class="intro-actions"><a class="button primary" href={withBase('/projects/')}>看看项目 ↗</a><a href={withBase('/blog/')}>看看文章 <span>→</span></a></div>
     </div>
 
-    <div class="code-window" data-tilt>
+    <div class="code-window" data-tilt data-parallax="0.15">
       <div class="code-top"><div><i></i><i></i><i></i></div><span>coding</span><b>实时</b></div>
       <div class="code-body">
         <div class="line"><code><span class="purple">const</span> focus = {'{'}</code></div>
@@ -35,7 +35,7 @@ const stackName: Record<string, string> = { Astro: '静态网站', TypeScript: '
 
   <section class="workspace container reveal">
     <div class="workspace-grid">
-      <div class="project-column">
+      <div class="project-column" data-parallax="0.085">
         <div class="work-head"><div><p>精选项目</p></div></div>
         {project && <article class="featured" data-tilt>
           <div class="featured-visual"><div class="project-kicker"><b>项目案例</b><time>{project.data.year}</time></div><div class="visual-shape"><i></i><i></i><i></i></div><div class="visual-flow"><span>开发</span><span>上线</span><span>复盘</span></div></div>
@@ -43,7 +43,7 @@ const stackName: Record<string, string> = { Astro: '静态网站', TypeScript: '
         </article>}
       </div>
 
-      <aside class="notes">
+      <aside class="notes" data-parallax="-0.085">
         <div class="notes-head"><div><p>最近文章</p></div></div>
         <div class="note-list">{posts.map((post) => <a href={withBase(`/blog/${post.id}/`)}><div><time>{date(post.data.updatedAt ?? post.data.publishedAt)}</time><h3>{post.data.title}</h3></div><i>↗</i></a>)}</div>
         <a class="notes-more" href={withBase('/blog/')}>浏览全部文章 <span>→</span></a>
@@ -53,7 +53,7 @@ const stackName: Record<string, string> = { Astro: '静态网站', TypeScript: '
 
   <section class="focus-section reveal">
     <div class="container">
-      <div class="focus-heading"><div><p>关注方向</p><h2>最近在做</h2></div></div>
+      <div class="focus-heading" data-parallax="-0.07"><div><p>关注方向</p><h2>最近在做</h2></div></div>
       <div class="focus-grid">
         <article data-focus-card><i></i><h3>AI 应用</h3><p>模型接入、智能体与检索增强。</p><span>相关文章 <b>→</b></span></article>
         <article data-focus-card><i></i><h3>全栈开发</h3><p>界面、接口、数据与部署。</p><span>相关文章 <b>→</b></span></article>

@@ -26,7 +26,7 @@ const jsonLd = {
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={description} />
     <meta name="theme-color" content="#ffffff" />
-    <link rel="icon" type="image/png" href="/blog/brand-logo-transparent.png" />
+    <link rel="icon" type="image/png" href={import.meta.env.DEV ? '/brand-logo-transparent.png' : '/blog/brand-logo-transparent.png'} />
     <link rel="canonical" href={canonical} />
     <link rel="alternate" type="application/rss+xml" title={site.title} href={`${site.url}/rss.xml`} />
     <meta property="og:type" content={type} />
@@ -39,11 +39,52 @@ const jsonLd = {
     <title>{fullTitle}</title>
   </head>
   <body>
+    <div class="page-progress" aria-hidden="true"><i></i></div>
     <div class="cursor-glow" aria-hidden="true"></div>
     <Header />
     <main><slot /></main>
     <Footer />
     <script>
+      const pageProgress = document.querySelector<HTMLElement>('.page-progress');
+      const progressBar = pageProgress?.querySelector<HTMLElement>('i');
+      const startProgress = () => {
+        if (!pageProgress || !progressBar) return;
+        pageProgress.classList.remove('is-done');
+        pageProgress.classList.remove('is-finishing');
+        pageProgress.classList.add('is-loading');
+        progressBar.style.transform = 'scaleX(.72)';
+      };
+      const finishProgress = () => {
+        if (!pageProgress || !progressBar) return;
+        const currentTransform = window.getComputedStyle(progressBar).transform;
+        progressBar.style.transform = currentTransform;
+        pageProgress.classList.add('is-finishing');
+        void progressBar.offsetWidth;
+        let finished = false;
+        const hideProgress = () => {
+          if (finished) return;
+          finished = true;
+          pageProgress.classList.add('is-done');
+          pageProgress.classList.remove('is-loading');
+          pageProgress.classList.remove('is-finishing');
+        };
+        progressBar.addEventListener('transitionend', (event) => {
+          if (event.propertyName === 'transform') hideProgress();
+        }, { once: true });
+        requestAnimationFrame(() => {
+          progressBar.style.transform = 'scaleX(1)';
+        });
+        window.setTimeout(hideProgress, 900);
+      };
+      document.addEventListener('click', (event) => {
+        const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
+        if (!link || link.target === '_blank' || link.hasAttribute('download') || event.defaultPrevented) return;
+        const target = new URL(link.href, window.location.href);
+        if (target.origin === window.location.origin && target.href !== window.location.href) startProgress();
+      });
+      if (document.readyState === 'complete') finishProgress();
+      else window.addEventListener('load', finishProgress, { once: true });
+
       const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
       if (!reduceMotion) {
         const glow = document.querySelector<HTMLElement>('.cursor-glow');
@@ -63,7 +104,7 @@ const jsonLd = {
           }
         }), { threshold: .1 });
         document.querySelectorAll('.reveal').forEach((node) => observer.observe(node));
-        if (finePointer) {
+        if (window.matchMedia('(min-width: 761px)').matches) {
           document.querySelectorAll<HTMLElement>('[data-tilt]').forEach((card) => {
             card.addEventListener('pointermove', (event) => {
               const rect = card.getBoundingClientRect();
@@ -73,6 +114,43 @@ const jsonLd = {
             });
             card.addEventListener('pointerleave', () => card.style.transform = '');
           });
+
+          const parallaxItems = Array.from(document.querySelectorAll<HTMLElement>('[data-parallax]')).map((element) => ({
+            element,
+            depth: Number(element.dataset.parallax ?? 0),
+            current: 0,
+            target: 0
+          }));
+          if (parallaxItems.length && window.matchMedia('(min-width: 761px)').matches) {
+            let parallaxFrame = 0;
+            let parallaxActive = true;
+            const measureParallax = () => {
+              const viewportCenter = window.innerHeight / 2;
+              parallaxItems.forEach((item) => {
+                const rect = item.element.getBoundingClientRect();
+                const elementCenter = rect.top - item.current + rect.height / 2;
+                item.target = Math.max(-80, Math.min(80, (elementCenter - viewportCenter) * item.depth));
+              });
+              if (!parallaxFrame) parallaxFrame = requestAnimationFrame(renderParallax);
+            };
+            const renderParallax = () => {
+              parallaxFrame = 0;
+              let moving = false;
+              parallaxItems.forEach((item) => {
+                item.current += (item.target - item.current) * .18;
+                if (Math.abs(item.target - item.current) > .08) moving = true;
+                item.element.style.setProperty('--parallax-y', `${item.current.toFixed(2)}px`);
+              });
+              if (moving && parallaxActive) parallaxFrame = requestAnimationFrame(renderParallax);
+            };
+            window.addEventListener('scroll', measureParallax, { passive: true });
+            window.addEventListener('resize', measureParallax, { passive: true });
+            document.addEventListener('visibilitychange', () => {
+              parallaxActive = !document.hidden;
+              if (parallaxActive) measureParallax();
+            });
+            measureParallax();
+          }
         }
       } else {
         document.querySelectorAll('.reveal').forEach((node) => node.classList.add('is-visible'));
