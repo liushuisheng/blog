@@ -1,0 +1,41 @@
+---
+import { getCollection } from 'astro:content';
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { withBase } from '../data/site';
+const posts = (await getCollection('blog', ({ data }) => !data.draft)).sort((a,b) => b.data.publishedAt.valueOf() - a.data.publishedAt.valueOf());
+---
+<BaseLayout title="归档" description="按照时间浏览全部文章。">
+  <section class="container archive">
+    <header class="archive-hero">
+      <h1 class="page-title">全部文章</h1>
+      <p>{posts.length} 篇文章，按发布时间排列。</p>
+      <i aria-hidden="true"></i>
+    </header>
+    <div class="list">
+      {posts.map((post) => <a href={withBase(`/blog/${post.id}/`)}><time>{post.data.publishedAt.toISOString().slice(0,10)}</time><strong>{post.data.title}</strong></a>)}
+    </div>
+  </section>
+</BaseLayout>
+<style>
+  .archive{padding:74px 0 110px}
+  .archive-hero{position:relative;min-height:0;padding:0;background:transparent}
+  .archive-hero>*:not(i){position:relative;z-index:1}
+  .archive-hero>span{display:inline-flex;align-items:center;gap:9px;color:#15845f;font-size:.78rem;font-weight:750;letter-spacing:.12em}
+  .archive-hero>span:before{content:"";width:24px;height:4px;border-radius:9px;background:linear-gradient(90deg,#20b47e,#baf26b)}
+  .archive-hero .page-title{margin:0;font-size:3rem;line-height:1.08;letter-spacing:-.055em}
+  .archive-hero p{margin:12px 0 0;color:var(--muted);font-size:1rem}
+  .archive-hero i{display:none}
+  .list{display:block;margin-top:56px}
+  .list a{display:grid;grid-template-columns:170px minmax(0,1fr);gap:18px;align-items:center;min-height:80px;padding:18px 4px;transition:transform .2s,color .2s}
+  .list a:hover{transform:translateX(5px)}
+  .list time{color:var(--muted);font-size:1rem}
+  .list strong{font-size:1rem;line-height:1.45}
+  @media(min-width:721px){.list strong:after{content:"→";display:inline-block;margin-left:12px;color:#16845f;font-weight:650;opacity:0;transform:translateX(-7px);transition:opacity .2s,transform .2s}.list a:hover strong:after{opacity:1;transform:translateX(0)}}
+  .list a>span{position:relative;z-index:1;display:grid;place-items:center;width:42px;height:42px;border-radius:13px;color:#16845f;background:#fff;box-shadow:0 10px 24px rgba(24,65,48,.08);transition:transform .2s}
+  .list a:hover>span{transform:translate(3px,-3px)}
+  @media(max-width:720px){
+    .archive{padding:18px 0 48px}.archive-hero{overflow:hidden;min-height:0;padding:28px 22px 25px;border-radius:24px;background:linear-gradient(145deg,#edf9f3,#f7f5ff 65%,#f8ffe9);box-shadow:0 18px 48px rgba(26,72,52,.07)}
+    .archive-hero>span{display:none}.archive-hero .page-title{margin:0;font-size:2.25rem;line-height:1.05}.archive-hero p{margin-top:10px;font-size:.85rem}.archive-hero i{width:135px;height:135px;right:-45px;top:-55px}
+    .archive-hero i{display:block}.list{display:grid;grid-template-columns:1fr;gap:12px;margin-top:22px}.list a{position:relative;overflow:hidden;grid-template-columns:1fr;gap:8px 14px;min-height:112px;padding:20px;border-radius:18px;background:linear-gradient(145deg,#fff,#f5fbf8);box-shadow:0 16px 40px rgba(24,65,48,.07)}.list a:nth-child(even){background:linear-gradient(145deg,#fff,#f7f5ff)}.list a:hover{transform:none}.list time{width:max-content;padding:5px 9px;border-radius:8px;color:#527064;background:#eaf8f1;font-size:.72rem}.list a:nth-child(even) time{color:#645f8c;background:#f0eeff}.list strong{font-size:1rem}
+  }
+</style>

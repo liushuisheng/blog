@@ -1,0 +1,8 @@
+---
+import { site, withBase } from '../data/site';
+interface Props { target: string; }
+const { target } = Astro.props;
+const href = withBase(target);
+const canonical = new URL(href, site.url).toString();
+---
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8" /><meta http-equiv="refresh" content={`0; url=${href}`} /><link rel="canonical" href={canonical} /><title>页面已迁移</title></head><body><p>页面已迁移到 <a href={href}>{href}</a>。</p></body></html>

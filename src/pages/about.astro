@@ -1,0 +1,50 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { site } from '../data/site';
+---
+<BaseLayout title="关于" description="关于刘水生，以及这个技术博客如何创作和维护。">
+  <article class="container about">
+    <header>
+      <h1 class="page-title"><span>你好，</span><strong>我是刘水生。</strong></h1>
+      <p>AI 全栈开发者，专注 AI 应用开发。</p>
+      <div class="about-tags"><span>AI 应用</span><span>全栈开发</span><span>产品实践</span></div>
+      <b class="hero-shape" aria-hidden="true"></b>
+    </header>
+    <div class="about-content">
+      <section><div><h2><i class="note-icon" aria-hidden="true"><b></b><b></b><b></b></i>这个博客</h2><p>项目复盘、技术实践，以及开发过程中的关键选择。</p></div></section>
+      <section><div><h2><i class="contact-icon" aria-hidden="true"><b></b><b></b></i>保持联系</h2><p>源码和公开项目都放在代码仓库。</p><a class="repo-link" href={site.github}>查看代码仓库 <span>→</span></a></div></section>
+    </div>
+  </article>
+</BaseLayout>
+<style>
+  .about{padding:66px 0 96px}
+  .about header{position:relative;display:block;min-height:0;padding:26px 6px 38px;background:transparent}
+  .about header>*:not(.hero-shape){position:relative;z-index:1}
+  .about-kicker{display:inline-flex;align-items:center;gap:9px;width:max-content;color:#16845f;font-size:.76rem;font-weight:750;letter-spacing:.1em}
+  .about-kicker:before{content:"";width:18px;height:3px;border-radius:9px;background:#46bd85}
+  .about .page-title{max-width:720px;margin:30px 0 0;line-height:1.1;letter-spacing:-.035em}
+  .about .page-title span{display:block;margin-bottom:10px;color:#68736e;font-size:1rem;font-weight:580;letter-spacing:.05em}
+  .about .page-title strong{display:block;font-size:clamp(2.45rem,3.2vw,3.2rem);font-weight:720;letter-spacing:-.045em}
+  .about header>p{margin:22px 0 0;color:#4f5a55;font-size:1rem;line-height:1.7}
+  .about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
+  .about-tags span{padding:8px 12px;border-radius:10px;color:#26745a;background:#edf8f2;font-size:.79rem;font-weight:650}
+  .hero-shape{display:none}
+  .about-content{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;max-width:none;margin-top:8px}
+  .about-content section{position:relative;overflow:hidden;display:block;min-height:180px;padding:30px 32px;border-radius:24px;background:#f5fbf8;box-shadow:0 16px 42px rgba(26,72,52,.055);transition:transform .22s,box-shadow .22s}
+  .about-content section:nth-child(2){background:#f7f6fc}
+  .about-content section:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(26,72,52,.085)}
+  .about-content h2{display:flex;align-items:center;gap:11px;margin:0 0 12px;font-size:1.35rem}
+  .about-content p{max-width:390px;margin:0;color:#66716c;font-size:.94rem;line-height:1.75}
+  .about-content h2>i{position:relative;display:inline-flex;flex:0 0 29px;width:29px;height:29px;border-radius:9px;background:#e1f8ec}
+  .about-content h2>i b{position:absolute;display:block}.note-icon b{left:8px;width:13px;height:2px;border-radius:3px;background:#15966b}.note-icon b:nth-child(1){top:8px}.note-icon b:nth-child(2){top:14px;width:9px}.note-icon b:nth-child(3){top:20px;width:11px}
+  .about-content h2>.contact-icon{background:#eeebff}.contact-icon b{top:8px;width:10px;height:10px;border:2px solid #6b65d8;border-radius:50%}.contact-icon b:first-child{left:5px}.contact-icon b:last-child{right:5px}.contact-icon:after{content:"";position:absolute;left:9px;top:17px;width:11px;height:2px;border-radius:2px;background:#6b65d8;transform:rotate(-12deg)}
+  .repo-link{display:inline-flex;align-items:center;gap:22px;min-height:42px;margin-top:19px;padding:0 15px;border-radius:11px;color:#fff;background:#171918;font-size:.82rem;font-weight:680;box-shadow:0 10px 24px rgba(13,20,16,.13)}.repo-link span{color:#b9f36b;font-size:1rem}
+  @media(max-width:960px) and (min-width:721px){.about header{padding-left:4px;padding-right:4px}}
+  @media(max-width:720px){
+    .about{display:block;padding:16px 0 42px}.about header{display:block;overflow:hidden;min-height:0;margin:0 0 14px;padding:24px 22px 21px;border-radius:24px;background:linear-gradient(135deg,#f2fbf6 0%,#fff 52%,#f2f0ff 100%);box-shadow:0 18px 45px rgba(27,65,50,.08)}
+    .about-kicker{margin-bottom:15px;font-size:.73rem}.about-kicker:before{width:18px;height:3px}.about .page-title{max-width:310px;margin:0;line-height:1.18;letter-spacing:-.03em}.about .page-title span{display:inline;margin:0;color:inherit;font-size:clamp(1.85rem,7.8vw,2.15rem);font-weight:720;letter-spacing:inherit}.about .page-title strong{display:inline;font-size:clamp(1.85rem,7.8vw,2.15rem);font-weight:720;letter-spacing:inherit}.about header>p{margin-top:12px;font-size:.94rem;line-height:1.55}.hero-shape{position:absolute;display:block;right:-25px;top:-26px;width:126px;height:126px;border-radius:38% 62% 68% 32%;background:linear-gradient(145deg,rgba(183,241,102,.5),rgba(145,145,255,.19));transform:rotate(18deg)}
+    .about-tags{gap:7px;margin-top:18px}.about-tags span{padding:7px 10px;border-radius:10px;font-size:.75rem}
+    .about .about-content{grid-template-columns:1fr}
+    .about-content{gap:12px}.about-content section{display:block;min-height:0;padding:22px;border-radius:22px;box-shadow:0 15px 38px rgba(26,72,52,.075)}.about-content section:hover{transform:none}.about-content h2{gap:11px;margin:1px 0 6px;font-size:1.22rem}.about-content p{font-size:.88rem;line-height:1.65}.about-content h2>i{flex-basis:25px;width:25px;height:25px;border-radius:8px}.note-icon b{left:7px;width:11px}.note-icon b:nth-child(1){top:7px}.note-icon b:nth-child(2){top:12px;width:8px}.note-icon b:nth-child(3){top:17px;width:10px}.contact-icon b{top:7px;width:9px;height:9px}.contact-icon b:first-child{left:4px}.contact-icon b:last-child{right:4px}.contact-icon:after{left:8px;top:15px;width:9px}.repo-link{min-height:38px;margin-top:13px;padding:0 13px;font-size:.78rem}
+  }
+</style>
