@@ -3,7 +3,7 @@ export const site = {
   brand: 'AI进化日记',
   title: '刘水生的技术博客',
   description: '一个 AI 全栈开发者的技术博客，记录 AI 应用、全栈工程、产品实践与持续思考。',
-  url: 'https://liushuisheng.github.io/blog',
+  url: 'https://lss.is-a.dev',
   github: 'https://github.com/liushuisheng',
   email: '',
   nav: [
@@ -17,6 +17,5 @@ export const site = {
 
 export const withBase = (path: string) => {
   const normalized = path.startsWith('/') ? path : `/${path}`;
-  const base = import.meta.env.DEV ? '' : '/blog';
-  return `${base}${normalized === '/' ? '/' : normalized}`;
+  return normalized === '/' ? '/' : normalized;
 };
