@@ -17,6 +17,9 @@ concurrency:
 jobs:
   build:
     runs-on: ubuntu-latest
+    env:
+      PUBLIC_SITE_ORIGIN: https://lss.is-a.dev
+      PUBLIC_BASE_PATH: /blog
     steps:
       - name: Checkout
         uses: actions/checkout@v6

@@ -1,9 +1,12 @@
 import { defineConfig } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 
+const site = process.env.PUBLIC_SITE_ORIGIN || 'https://lss.is-a.dev';
+const base = process.env.PUBLIC_BASE_PATH || '/';
+
 export default defineConfig({
-  site: 'https://lss.is-a.dev',
-  base: '/',
+  site,
+  base,
   output: 'static',
   integrations: [sitemap()],
   build: {
