@@ -11,7 +11,7 @@ const format = (date: Date) => new Intl.DateTimeFormat('zh-CN', { dateStyle: 'lo
 ---
 <BaseLayout title={post.data.title} description={post.data.description} type="article">
   <article class="container article">
-    <a class="back" href={withBase('/blog/')}>← 返回文章</a>
+    <a class="back" href={withBase('/articles/')}>← 返回文章</a>
     <header><div class="tags">{post.data.tags.map((tag) => <span class="tag">{tag}</span>)}</div><h1 class="page-title">{post.data.title}</h1><p class="description">{post.data.description}</p><div class="meta"><span>发布于 {format(post.data.publishedAt)}</span>{post.data.updatedAt && <span>更新于 {format(post.data.updatedAt)}</span>}{post.data.aiAssisted && <span>AI 辅助，人工校验</span>}</div></header>
     <div class="prose"><Content /></div>
   </article>

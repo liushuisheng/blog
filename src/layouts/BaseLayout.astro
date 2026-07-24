@@ -47,13 +47,6 @@ const jsonLd = {
     <script>
       const pageProgress = document.querySelector<HTMLElement>('.page-progress');
       const progressBar = pageProgress?.querySelector<HTMLElement>('i');
-      const startProgress = () => {
-        if (!pageProgress || !progressBar) return;
-        pageProgress.classList.remove('is-done');
-        pageProgress.classList.remove('is-finishing');
-        pageProgress.classList.add('is-loading');
-        progressBar.style.transform = 'scaleX(.72)';
-      };
       const finishProgress = () => {
         if (!pageProgress || !progressBar) return;
         const currentTransform = window.getComputedStyle(progressBar).transform;
@@ -76,12 +69,6 @@ const jsonLd = {
         });
         window.setTimeout(hideProgress, 900);
       };
-      document.addEventListener('click', (event) => {
-        const link = (event.target as Element).closest<HTMLAnchorElement>('a[href]');
-        if (!link || link.target === '_blank' || link.hasAttribute('download') || event.defaultPrevented) return;
-        const target = new URL(link.href, window.location.href);
-        if (target.origin === window.location.origin && target.href !== window.location.href) startProgress();
-      });
       if (document.readyState === 'complete') finishProgress();
       else window.addEventListener('load', finishProgress, { once: true });
 
