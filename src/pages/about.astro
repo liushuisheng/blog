@@ -1,50 +1,135 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
-import { site } from '../data/site';
+import { withBase } from '../data/site';
+
+const contactAccounts = [
+  { name: '微信', image: '/social/wechat.jpg', icon: '/social/icons/wechat.ico', crop: 'wechat', title: '微信交流', account: '' },
+  { name: '公众号', image: '/social/official-account.jpg', icon: '/social/icons/official-account.ico', crop: 'official', title: '公众号', account: 'AI进化日记' },
+  { name: '视频号', image: '/social/channels.jpg', icon: '/social/icons/channels.ico', crop: 'channels', title: '视频号', account: 'AI进化日记' },
+  { name: '小红书', image: '/social/xiaohongshu.jpg', icon: '/social/icons/xiaohongshu.ico', crop: 'xiaohongshu', title: '小红书', account: 'AI进化日记' },
+  { name: '抖音', image: '/social/douyin.jpg', icon: '/social/icons/douyin.png', crop: 'douyin', title: '抖音', account: 'AI进化日记' }
+];
 ---
 <BaseLayout title="关于" description="关于刘水生，以及这个技术博客如何创作和维护。">
   <article class="container about">
-    <header>
-      <h1 class="page-title"><span>你好，</span><strong>我是刘水生。</strong></h1>
-      <p>AI 全栈开发者，专注 AI 应用开发。</p>
-      <div class="about-tags"><span>AI 应用</span><span>全栈开发</span><span>产品实践</span></div>
-      <b class="hero-shape" aria-hidden="true"></b>
+    <header class="about-hero">
+      <div class="hero-copy">
+        <span class="hello">你好，</span>
+        <h1>我是刘水生。</h1>
+        <p>AI 全栈开发者，专注 AI 应用开发。</p>
+        <div class="about-tags"><span>AI 应用</span><span>全栈开发</span><span>产品实践</span></div>
+      </div>
+
+      <section class="contact-panel">
+        <header>
+          <h2>关注与联系</h2>
+        </header>
+        <div class="contact-grid">
+          {contactAccounts.map((account) => (
+            <button class="media-qr-card" type="button" aria-label={`查看${account.name}二维码`} data-qr-open data-qr-src={withBase(account.image)} data-qr-title={account.title} data-qr-account={account.account}>
+              <span class={`qr-crop ${account.crop}`}><img src={withBase(account.image)} alt={`${account.name}二维码`} loading="lazy" /><i aria-hidden="true">⌕</i></span>
+              <span class={`platform-name ${account.crop}`}>
+                <span class="platform-icon" aria-hidden="true"><img src={withBase(account.icon)} alt="" /></span>
+                {account.name}
+              </span>
+            </button>
+          ))}
+        </div>
+      </section>
     </header>
-    <div class="about-content">
-      <section><div><h2><i class="note-icon" aria-hidden="true"><b></b><b></b><b></b></i>这个博客</h2><p>项目复盘、技术实践，以及开发过程中的关键选择。</p></div></section>
-      <section><div><h2><i class="contact-icon" aria-hidden="true"><b></b><b></b></i>保持联系</h2><p>源码和公开项目都放在代码仓库。</p><a class="repo-link" href={site.github}>查看代码仓库 <span>→</span></a></div></section>
-    </div>
+
+    <section class="blog-card">
+      <span class="blog-icon" aria-hidden="true">
+        <svg viewBox="0 0 24 24"><path d="M6.5 3.5h8l3 3V20a1 1 0 0 1-1 1h-10a1 1 0 0 1-1-1V4.5a1 1 0 0 1 1-1Z"/><path d="M14.5 3.5v4h4M8.5 12h6M8.5 16h4"/></svg>
+      </span>
+      <div><h2>这个博客</h2><p>记录项目实践与关键选择。</p></div>
+      <div class="blog-art" aria-hidden="true">
+        <svg viewBox="0 0 280 130">
+          <defs>
+            <linearGradient id="art-glow" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#dff8eb"/><stop offset="1" stop-color="#edf1ff"/></linearGradient>
+            <linearGradient id="art-card" x1="0" y1="0" x2="1" y2="1"><stop stop-color="#fff"/><stop offset="1" stop-color="#f2fbf6"/></linearGradient>
+            <filter id="art-shadow" x="-30%" y="-30%" width="160%" height="180%"><feDropShadow dx="0" dy="8" stdDeviation="7" flood-color="#38775e" flood-opacity=".12"/></filter>
+          </defs>
+          <ellipse class="art-halo" cx="145" cy="68" rx="126" ry="50"/>
+          <path class="art-orbit-line" d="M22 83c36-37 92-55 157-43 39 7 67 25 78 47"/>
+          <path class="art-orbit-line subtle" d="M43 105c49 14 119 8 172-23 22-13 35-27 39-42"/>
+          <g class="art-code" filter="url(#art-shadow)">
+            <rect x="132" y="22" width="105" height="77" rx="13"/>
+            <circle cx="148" cy="37" r="3"/><circle cx="158" cy="37" r="3"/><circle cx="168" cy="37" r="3"/>
+            <path d="M148 54h37M148 65h59M148 76h45"/>
+            <path class="art-code-mark" d="m212 52 8 7-8 7M197 66l-8-7 8-7"/>
+          </g>
+          <g class="art-note" filter="url(#art-shadow)">
+            <path d="M72 33h69l17 17v62H72z"/>
+            <path d="M141 33v18h17"/>
+            <path d="M90 64h47M90 76h52M90 88h34"/>
+            <rect x="90" y="99" width="28" height="5" rx="2.5"/>
+          </g>
+          <g class="art-sparkles">
+            <path d="m57 39 3 7 7 3-7 3-3 7-3-7-7-3 7-3z"/>
+            <path d="m240 18 2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/>
+            <circle cx="47" cy="91" r="3"/><circle cx="252" cy="106" r="4"/>
+          </g>
+        </svg>
+      </div>
+    </section>
+
+    <dialog class="qr-modal" aria-labelledby="qr-modal-title">
+      <div class="qr-modal-card">
+        <button class="qr-modal-close" type="button" aria-label="关闭二维码预览">×</button>
+        <div class="qr-modal-image"><img src="" alt="" /></div>
+        <h3 id="qr-modal-title"></h3>
+        <span class="qr-modal-account"></span>
+        <p>长按或保存图片后识别二维码</p>
+      </div>
+    </dialog>
   </article>
 </BaseLayout>
+
 <style>
-  .about{padding:66px 0 96px}
-  .about header{position:relative;display:block;min-height:0;padding:26px 6px 38px;background:transparent}
-  .about header>*:not(.hero-shape){position:relative;z-index:1}
-  .about-kicker{display:inline-flex;align-items:center;gap:9px;width:max-content;color:#16845f;font-size:.76rem;font-weight:750;letter-spacing:.1em}
-  .about-kicker:before{content:"";width:18px;height:3px;border-radius:9px;background:#46bd85}
-  .about .page-title{max-width:720px;margin:30px 0 0;line-height:1.1;letter-spacing:-.035em}
-  .about .page-title span{display:block;margin-bottom:10px;color:#68736e;font-size:1rem;font-weight:580;letter-spacing:.05em}
-  .about .page-title strong{display:block;font-size:clamp(2.45rem,3.2vw,3.2rem);font-weight:720;letter-spacing:-.045em}
-  .about header>p{margin:22px 0 0;color:#4f5a55;font-size:1rem;line-height:1.7}
-  .about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-  .about-tags span{padding:8px 12px;border-radius:10px;color:#26745a;background:#edf8f2;font-size:.79rem;font-weight:650}
-  .hero-shape{display:none}
-  .about-content{display:grid;grid-template-columns:1.15fr .85fr;gap:18px;max-width:none;margin-top:8px}
-  .about-content section{position:relative;overflow:hidden;display:block;min-height:180px;padding:30px 32px;border-radius:24px;background:#f5fbf8;box-shadow:0 16px 42px rgba(26,72,52,.055);transition:transform .22s,box-shadow .22s}
-  .about-content section:nth-child(2){background:#f7f6fc}
-  .about-content section:hover{transform:translateY(-3px);box-shadow:0 22px 48px rgba(26,72,52,.085)}
-  .about-content h2{display:flex;align-items:center;gap:11px;margin:0 0 12px;font-size:1.35rem}
-  .about-content p{max-width:390px;margin:0;color:#66716c;font-size:.94rem;line-height:1.75}
-  .about-content h2>i{position:relative;display:inline-flex;flex:0 0 29px;width:29px;height:29px;border-radius:9px;background:#e1f8ec}
-  .about-content h2>i b{position:absolute;display:block}.note-icon b{left:8px;width:13px;height:2px;border-radius:3px;background:#15966b}.note-icon b:nth-child(1){top:8px}.note-icon b:nth-child(2){top:14px;width:9px}.note-icon b:nth-child(3){top:20px;width:11px}
-  .about-content h2>.contact-icon{background:#eeebff}.contact-icon b{top:8px;width:10px;height:10px;border:2px solid #6b65d8;border-radius:50%}.contact-icon b:first-child{left:5px}.contact-icon b:last-child{right:5px}.contact-icon:after{content:"";position:absolute;left:9px;top:17px;width:11px;height:2px;border-radius:2px;background:#6b65d8;transform:rotate(-12deg)}
-  .repo-link{display:inline-flex;align-items:center;gap:22px;min-height:42px;margin-top:19px;padding:0 15px;border-radius:11px;color:#fff;background:#171918;font-size:.82rem;font-weight:680;box-shadow:0 10px 24px rgba(13,20,16,.13)}.repo-link span{color:#b9f36b;font-size:1rem}
-  @media(max-width:960px) and (min-width:721px){.about header{padding-left:4px;padding-right:4px}}
-  @media(max-width:720px){
-    .about{display:block;padding:16px 0 42px}.about header{display:block;overflow:hidden;min-height:0;margin:0 0 14px;padding:24px 22px 21px;border-radius:24px;background:linear-gradient(135deg,#f2fbf6 0%,#fff 52%,#f2f0ff 100%);box-shadow:0 18px 45px rgba(27,65,50,.08)}
-    .about-kicker{margin-bottom:15px;font-size:.73rem}.about-kicker:before{width:18px;height:3px}.about .page-title{max-width:310px;margin:0;line-height:1.18;letter-spacing:-.03em}.about .page-title span{display:inline;margin:0;color:inherit;font-size:clamp(1.85rem,7.8vw,2.15rem);font-weight:720;letter-spacing:inherit}.about .page-title strong{display:inline;font-size:clamp(1.85rem,7.8vw,2.15rem);font-weight:720;letter-spacing:inherit}.about header>p{margin-top:12px;font-size:.94rem;line-height:1.55}.hero-shape{position:absolute;display:block;right:-25px;top:-26px;width:126px;height:126px;border-radius:38% 62% 68% 32%;background:linear-gradient(145deg,rgba(183,241,102,.5),rgba(145,145,255,.19));transform:rotate(18deg)}
-    .about-tags{gap:7px;margin-top:18px}.about-tags span{padding:7px 10px;border-radius:10px;font-size:.75rem}
-    .about .about-content{grid-template-columns:1fr}
-    .about-content{gap:12px}.about-content section{display:block;min-height:0;padding:22px;border-radius:22px;box-shadow:0 15px 38px rgba(26,72,52,.075)}.about-content section:hover{transform:none}.about-content h2{gap:11px;margin:1px 0 6px;font-size:1.22rem}.about-content p{font-size:.88rem;line-height:1.65}.about-content h2>i{flex-basis:25px;width:25px;height:25px;border-radius:8px}.note-icon b{left:7px;width:11px}.note-icon b:nth-child(1){top:7px}.note-icon b:nth-child(2){top:12px;width:8px}.note-icon b:nth-child(3){top:17px;width:10px}.contact-icon b{top:7px;width:9px;height:9px}.contact-icon b:first-child{left:4px}.contact-icon b:last-child{right:4px}.contact-icon:after{left:8px;top:15px;width:9px}.repo-link{min-height:38px;margin-top:13px;padding:0 13px;font-size:.78rem}
+  .about{padding:38px 0 80px}
+  .about-hero{display:grid;grid-template-columns:minmax(0,1fr) 650px;align-items:center;gap:70px;min-height:520px;padding:8px 6px 0}
+  .hello{display:block;margin-bottom:9px;color:#68736e;font-size:1rem;font-weight:600;letter-spacing:.05em}
+  .hero-copy h1{margin:0;font-size:clamp(2.65rem,4vw,3.65rem);line-height:1.08;letter-spacing:-.05em}
+  .hero-copy>p{margin:22px 0 0;color:#4f5a55;font-size:1rem}
+  .about-tags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}.about-tags span{padding:8px 12px;border-radius:10px;color:#26745a;background:#edf8f2;font-size:.79rem;font-weight:650}
+  .contact-panel{position:relative;padding:18px 20px 22px;border:0;border-radius:25px;background:linear-gradient(145deg,rgba(248,253,250,.76),rgba(241,250,246,.62));box-shadow:none}
+  .contact-panel>header{position:relative;z-index:1;margin:0 0 18px 4px}.contact-panel h2{margin:0;color:#46534d;font-size:1.05rem;font-weight:500;letter-spacing:0}
+  .contact-grid{position:relative;z-index:1;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px 14px}.media-qr-card{grid-column:span 2;display:flex;height:180px;min-width:0;padding:10px;align-items:center;flex-direction:column;border:0;border-radius:16px;color:inherit;background:rgba(255,255,255,.78);font:inherit;text-align:center;cursor:zoom-in;box-shadow:0 10px 28px rgba(33,80,65,.035);transition:transform .2s,box-shadow .2s}.media-qr-card:nth-child(4){grid-column:2/span 2}.media-qr-card:nth-child(5){grid-column:4/span 2}.media-qr-card:hover{transform:translateY(-2px);box-shadow:0 15px 34px rgba(33,80,65,.06)}
+  .platform-name{display:flex;align-items:center;gap:6px;margin-top:7px;color:#46534d;font-size:.83rem;font-weight:400}.platform-icon{display:grid;width:17px;height:17px;place-items:center}.platform-icon img{display:block;width:100%;height:100%;object-fit:contain}.platform-name.douyin .platform-icon img{border-radius:4px}
+  .qr-crop{position:relative;display:flex;width:135px;height:135px;align-items:center;justify-content:center;overflow:hidden;background:#fff}.qr-crop img{display:block;max-width:none;height:auto}.qr-crop.wechat img{width:133%;transform:translateY(-6px)}.qr-crop.official img{width:100%}.qr-crop.channels img{width:137%;transform:translateY(-6px)}.qr-crop.xiaohongshu img{width:140%;transform:translateY(38px)}.qr-crop.douyin{clip-path:circle(62px at 50% 60%)}.qr-crop.douyin img{width:153%;transform:translateY(55px)}
+  .qr-crop i{position:absolute;right:5px;bottom:5px;display:grid;place-items:center;width:24px;height:24px;border-radius:8px;color:#246f58;background:rgba(244,250,247,.94);font-style:normal;font-size:.8rem;opacity:0;transform:translateY(3px);transition:opacity .2s,transform .2s;box-shadow:0 6px 18px rgba(27,69,51,.1)}.media-qr-card:hover i{opacity:1;transform:none}
+  .blog-card{position:relative;display:flex;min-height:150px;margin-top:30px;padding:30px 32px;align-items:center;gap:17px;overflow:hidden;border:1px solid rgba(15,118,110,.06);border-radius:22px;background:linear-gradient(145deg,#f7fcf9,#fbfdfc);box-shadow:0 14px 36px rgba(33,80,65,.04)}
+  .blog-icon{position:relative;z-index:1;display:grid;flex:0 0 42px;width:42px;height:42px;place-items:center;border-radius:13px;color:#15966b;background:#def6e9}.blog-icon svg{width:23px;height:23px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.blog-card>div:not(.blog-art){position:relative;z-index:1}
+  .blog-art{position:absolute;right:38px;top:50%;width:240px;height:112px;transform:translateY(-50%);opacity:.42}.blog-art svg{display:block;width:100%;height:100%;overflow:visible}.art-halo{fill:url(#art-glow);opacity:.62}.art-orbit-line{fill:none;stroke:#7ed2ad;stroke-width:1;opacity:.24}.art-orbit-line.subtle{stroke:#a8a8ed;opacity:.14}.art-code rect{fill:rgba(224,244,234,.82);stroke:#bfe4d2;stroke-width:1}.art-code circle{fill:#91cdb1}.art-code path{fill:none;stroke:#74b797;stroke-width:2.4;stroke-linecap:round}.art-code .art-code-mark{stroke:#78b993;stroke-width:1.8}.art-note path:first-child{fill:url(#art-card);stroke:#cdebdc;stroke-width:1}.art-note path:nth-child(2){fill:none;stroke:#8fd2b3;stroke-width:1.5}.art-note path:nth-child(n+3){fill:none;stroke:#65b991;stroke-width:2;stroke-linecap:round}.art-note rect{fill:#a9dba9}.art-sparkles{fill:#75caa2}.art-sparkles path{fill:#a9dba9}.art-sparkles circle:last-child{fill:#a6a6d8}
+  .blog-card h2{margin:0;font-size:1.25rem;letter-spacing:-.02em}.blog-card p{margin:5px 0 0;color:var(--muted);font-size:.88rem}
+  .qr-modal{width:min(92vw,620px);max-height:92dvh;padding:0;border:0;border-radius:26px;background:transparent;overflow:visible}.qr-modal::backdrop{background:rgba(14,22,18,.56);backdrop-filter:blur(8px)}
+  .qr-modal-card{position:relative;overflow:auto;max-height:92dvh;padding:22px 22px 20px;border-radius:26px;background:#f7fbf9;box-shadow:0 32px 90px rgba(8,24,17,.28)}.qr-modal-close{position:absolute;z-index:2;top:14px;right:14px;display:grid;place-items:center;width:38px;height:38px;padding:0;border:0;border-radius:12px;color:#26322d;background:rgba(255,255,255,.92);font-size:1.45rem;line-height:1;cursor:pointer;box-shadow:0 8px 22px rgba(20,52,38,.1)}
+  .qr-modal-image{display:grid;place-items:center;overflow:hidden;max-height:70dvh;border-radius:18px;background:#fff}.qr-modal-image img{display:block;width:auto;max-width:100%;height:auto;max-height:70dvh;object-fit:contain}.qr-modal h3{margin:16px 4px 0;font-size:1.15rem}.qr-modal-account{display:block;margin:1px 4px 0;color:#53625b;font-size:.82rem}.qr-modal-account:empty{display:none}.qr-modal p{margin:4px 4px 0;color:var(--muted);font-size:.76rem}
+  @media(max-width:1100px){.about-hero{grid-template-columns:1fr;gap:38px;padding-top:24px}.contact-panel{width:100%;max-width:650px;justify-self:center}}
+  @media(max-width:767px){
+    .about{padding:16px 0 76px}.about-hero{gap:14px;min-height:0;padding:0}.hero-copy{position:relative;overflow:hidden;padding:24px 22px 21px;border-radius:24px;background:linear-gradient(135deg,#f2fbf6 0%,#fff 52%,#f2f0ff 100%);box-shadow:0 18px 45px rgba(27,65,50,.08)}.hero-copy::after{content:'';position:absolute;width:126px;height:126px;right:-25px;top:-26px;border-radius:38% 62% 68% 32%;background:linear-gradient(145deg,rgba(183,241,102,.5),rgba(145,145,255,.19));transform:rotate(18deg)}.hero-copy>*{position:relative;z-index:1}.hello{display:inline;margin:0;font-size:clamp(1.85rem,7.8vw,2.15rem);font-weight:720;letter-spacing:-.03em}.hero-copy h1{display:inline;font-size:clamp(1.85rem,7.8vw,2.15rem);line-height:1.18;letter-spacing:-.03em}.hero-copy>p{margin-top:12px;font-size:.94rem}.about-tags{gap:7px;margin-top:18px}.about-tags span{padding:7px 10px;font-size:.75rem}
+    .contact-panel{padding:20px 8px 16px;border-radius:22px}.contact-panel>header{margin:0 0 16px 4px}.contact-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:9px}.media-qr-card,.media-qr-card:nth-child(4),.media-qr-card:nth-child(5){grid-column:auto;height:180px;padding:9px}.media-qr-card:last-child{grid-column:1/-1;width:calc(50% - 5px);justify-self:center}.qr-crop{width:135px;height:135px}
+    .blog-card{min-height:140px;margin-top:20px;padding:27px 24px}.blog-art{right:-62px;width:170px;opacity:.38}.blog-card>div:not(.blog-art){max-width:62%}
   }
 </style>
+
+<script>
+  const qrModal = document.querySelector<HTMLDialogElement>('.qr-modal');
+  const qrModalImage = qrModal?.querySelector<HTMLImageElement>('.qr-modal-image img');
+  const qrModalTitle = qrModal?.querySelector<HTMLElement>('#qr-modal-title');
+  const qrModalAccount = qrModal?.querySelector<HTMLElement>('.qr-modal-account');
+  document.querySelectorAll<HTMLElement>('[data-qr-open]').forEach((trigger) => {
+    trigger.addEventListener('click', () => {
+      if (!qrModal || !qrModalImage || !qrModalTitle || !qrModalAccount) return;
+      const title = trigger.dataset.qrTitle ?? '二维码';
+      qrModalImage.src = trigger.dataset.qrSrc ?? '';
+      qrModalImage.alt = `${title}二维码`;
+      qrModalTitle.textContent = title;
+      qrModalAccount.textContent = trigger.dataset.qrAccount ?? '';
+      qrModal.showModal();
+    });
+  });
+  qrModal?.querySelector<HTMLButtonElement>('.qr-modal-close')?.addEventListener('click', () => qrModal.close());
+  qrModal?.addEventListener('click', (event) => { if (event.target === qrModal) qrModal.close(); });
+</script>

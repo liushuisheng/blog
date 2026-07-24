@@ -59,7 +59,7 @@ const jsonLd = {
           finished = true;
           pageProgress.classList.add('is-done');
           pageProgress.classList.remove('is-loading');
-          pageProgress.classList.remove('is-finishing');
+          progressBar.style.transform = 'scaleX(1)';
         };
         progressBar.addEventListener('transitionend', (event) => {
           if (event.propertyName === 'transform') hideProgress();

@@ -12,7 +12,7 @@ const { Content } = await render(project);
   <article class="container project-detail">
     <a class="back" href={withBase('/projects/')}>← 返回作品集</a>
     <header><p class="eyebrow">{project.data.year} · {project.data.status}</p><h1 class="page-title">{project.data.title}</h1><p class="lead">{project.data.summary}</p></header>
-    <div class="facts card"><div><span>角色</span><strong>{project.data.role}</strong></div><div><span>技术栈</span><strong>{project.data.stack.join(' · ')}</strong></div><div class="links">{project.data.demo && <a href={project.data.demo}>在线体验 ↗</a>}{project.data.repository && <a href={project.data.repository}>查看源码 ↗</a>}</div></div>
+    <div class="facts card"><div><span>角色</span><strong>{project.data.role}</strong></div><div><span>技术栈</span><strong>{project.data.stack.join(' · ')}</strong></div>{project.data.demo && <div class="links"><a href={project.data.demo}>在线体验 ↗</a></div>}</div>
     {project.data.highlights.length > 0 && <section class="highlights"><p class="eyebrow">项目亮点</p><div>{project.data.highlights.map((item) => <strong>{item}</strong>)}</div></section>}
     <div class="prose"><Content /></div>
   </article>

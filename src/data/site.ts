@@ -7,7 +7,6 @@ export const site = {
   title: '刘水生的技术博客',
   description: '一个 AI 全栈开发者的技术博客，记录 AI 应用、全栈工程、产品实践与持续思考。',
   url: `${siteOrigin}${basePath}`,
-  github: 'https://github.com/liushuisheng',
   email: '',
   nav: [
     { href: '/', label: '首页' },
