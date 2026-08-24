@@ -1,5 +1,6 @@
 ---
 import { withBase } from '../data/site';
+const icpNumber = '粤ICP备2025440187号';
 ---
 <footer>
   <div class="container footer-main">
@@ -17,6 +18,7 @@ import { withBase } from '../data/site';
   </div>
   <div class="container footer-bottom">
     <span>© {new Date().getFullYear()} 刘水生的技术博客</span>
+    <a class="icp-link" href="https://beian.miit.gov.cn/" target="_blank" rel="noopener noreferrer">{icpNumber}</a>
     <span>内容与代码持续更新</span>
   </div>
 </footer>
@@ -34,6 +36,8 @@ import { withBase } from '../data/site';
   nav a::after { content: ''; position: absolute; left: 0; right: 0; bottom: -5px; height: 1px; background: var(--accent); transform: scaleX(0); transform-origin: left; transition: transform .2s ease; }
   nav a:hover { color: var(--accent); } nav a:hover::after { transform: scaleX(1); }
   .footer-bottom { display: flex; align-items: center; justify-content: space-between; padding-block: 8px 14px; color: #747b76; font-size: .75rem; line-height: 1.5; }
+  .icp-link { color: inherit; white-space: nowrap; }
+  .icp-link:hover { color: var(--accent); }
   @media(max-width:720px){footer{border-radius:26px 26px 0 0;background:linear-gradient(145deg,#f4fbf7,#f8f7ff 62%,#fbfff5)}.footer-main{align-items:center;flex-direction:column;gap:14px;min-height:0;padding-block:24px 8px}.footer-brand{gap:11px}.footer-brand img{width:40px;height:40px}.footer-brand>span{min-height:40px}.footer-brand strong{font-size:.94rem}.footer-brand small{margin-top:3px;font-size:.7rem}nav{width:100%;justify-content:center;flex-wrap:wrap;gap:0 17px}nav a{display:flex;align-items:center;min-height:36px;font-size:.78rem}.footer-bottom{justify-content:center;gap:7px;flex-direction:row;flex-wrap:wrap;padding-block:8px 20px;text-align:center;font-size:.7rem}.footer-bottom span+span::before{content:'·';margin-right:7px;color:#a2aaa5}}
   @media(max-width:370px){nav{gap-inline:12px}.footer-bottom{flex-direction:column;gap:2px}.footer-bottom span+span::before{display:none}}
 </style>

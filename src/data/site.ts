@@ -1,5 +1,5 @@
 const basePath = import.meta.env.BASE_URL.replace(/\/$/, '');
-const siteOrigin = (import.meta.env.PUBLIC_SITE_ORIGIN ?? 'https://lss.is-a.dev').replace(/\/$/, '');
+const siteOrigin = (import.meta.env.PUBLIC_SITE_ORIGIN ?? 'https://www.jidehub.top').replace(/\/$/, '');
 
 export const site = {
   name: '刘水生',

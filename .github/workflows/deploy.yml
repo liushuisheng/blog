@@ -1,4 +1,4 @@
-name: Deploy Astro site to GitHub Pages
+name: Deploy Astro site
 
 on:
   push:
@@ -11,15 +11,15 @@ permissions:
   id-token: write
 
 concurrency:
-  group: pages
+  group: production
   cancel-in-progress: true
 
 jobs:
-  build:
+  build-github-pages:
     runs-on: ubuntu-latest
     env:
       PUBLIC_SITE_ORIGIN: https://lss.is-a.dev
-      PUBLIC_BASE_PATH: /blog
+      PUBLIC_BASE_PATH: /
     steps:
       - name: Checkout
         uses: actions/checkout@v6
@@ -37,13 +37,53 @@ jobs:
         with:
           path: dist
 
-  deploy:
+  deploy-github-pages:
     environment:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     runs-on: ubuntu-latest
-    needs: build
+    needs: build-github-pages
     steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
+
+  deploy-tencent-cloud:
+    name: Deploy to Tencent Cloud CVM
+    runs-on: ubuntu-latest
+    env:
+      PUBLIC_SITE_ORIGIN: https://www.jidehub.top
+      PUBLIC_BASE_PATH: /
+      CVM_HOST: ${{ secrets.TENCENT_CVM_HOST }}
+      CVM_USER: ${{ secrets.TENCENT_CVM_USER }}
+      CVM_PORT: ${{ vars.TENCENT_CVM_PORT || '22' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v6
+      - name: Setup Node
+        uses: actions/setup-node@v6
+        with:
+          node-version: 22
+          cache: npm
+      - name: Install dependencies
+        run: npm ci
+      - name: Build for www.jidehub.top
+        run: npm run build
+      - name: Configure SSH
+        env:
+          CVM_SSH_PRIVATE_KEY: ${{ secrets.TENCENT_CVM_SSH_PRIVATE_KEY }}
+          CVM_SSH_KNOWN_HOSTS: ${{ secrets.TENCENT_CVM_SSH_KNOWN_HOSTS }}
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "$CVM_SSH_PRIVATE_KEY" > ~/.ssh/id_ed25519
+          chmod 600 ~/.ssh/id_ed25519
+          printf '%s\n' "$CVM_SSH_KNOWN_HOSTS" > ~/.ssh/known_hosts
+          chmod 600 ~/.ssh/known_hosts
+      - name: Package site
+        run: tar -C dist -czf "site-${GITHUB_SHA}.tar.gz" .
+      - name: Upload release
+        run: scp -P "$CVM_PORT" "site-${GITHUB_SHA}.tar.gz" "$CVM_USER@$CVM_HOST:/tmp/"
+      - name: Activate release
+        run: |
+          ssh -p "$CVM_PORT" "$CVM_USER@$CVM_HOST" \
+            "set -eu; root=/var/www/jidehub.top; release=\$root/releases/$GITHUB_SHA; mkdir -p \$release; tar -xzf /tmp/site-$GITHUB_SHA.tar.gz -C \$release; ln -sfn \$release \$root/current; rm -f /tmp/site-$GITHUB_SHA.tar.gz; find \$root/releases -mindepth 1 -maxdepth 1 -type d ! -name '$GITHUB_SHA' -mtime +7 -exec rm -rf -- {} +"
