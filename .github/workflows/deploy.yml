@@ -82,8 +82,8 @@ jobs:
       - name: Package site
         run: tar -C dist -czf "site-${GITHUB_SHA}.tar.gz" .
       - name: Upload release
-        run: scp -P "$CVM_PORT" "site-${GITHUB_SHA}.tar.gz" "$CVM_USER@$CVM_HOST:/tmp/"
+        run: scp -o ConnectTimeout=20 -o ServerAliveInterval=10 -o ServerAliveCountMax=2 -P "$CVM_PORT" "site-${GITHUB_SHA}.tar.gz" "$CVM_USER@$CVM_HOST:/tmp/"
       - name: Activate release
         run: |
-          ssh -p "$CVM_PORT" "$CVM_USER@$CVM_HOST" \
+          ssh -o ConnectTimeout=20 -o ServerAliveInterval=10 -o ServerAliveCountMax=2 -p "$CVM_PORT" "$CVM_USER@$CVM_HOST" \
             "set -eu; root=/var/www/jidehub.top; release=\$root/releases/$GITHUB_SHA; mkdir -p \$release; tar -xzf /tmp/site-$GITHUB_SHA.tar.gz -C \$release; ln -sfn \$release \$root/current; rm -f /tmp/site-$GITHUB_SHA.tar.gz; find \$root/releases -mindepth 1 -maxdepth 1 -type d ! -name '$GITHUB_SHA' -mtime +7 -exec rm -rf -- {} +"
