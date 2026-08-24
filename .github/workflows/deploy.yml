@@ -85,7 +85,7 @@ jobs:
       - name: Upload release
         run: |
           for attempt in 1 2 3; do
-            timeout 45s scp -o ConnectTimeout=20 -o ServerAliveInterval=10 -o ServerAliveCountMax=2 -P "$CVM_PORT" "site-${GITHUB_SHA}.tar.gz" "$CVM_USER@$CVM_HOST:/tmp/" && exit 0
+            timeout 45s scp -O -o ConnectTimeout=20 -o ServerAliveInterval=10 -o ServerAliveCountMax=2 -P "$CVM_PORT" "site-${GITHUB_SHA}.tar.gz" "$CVM_USER@$CVM_HOST:/tmp/" && exit 0
             echo "Upload attempt $attempt failed; retrying..."
             sleep 5
           done
