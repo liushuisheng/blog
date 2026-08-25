@@ -9,9 +9,11 @@ const pathname = Astro.url.pathname;
       <span class="brand-copy"><strong>{site.brand}</strong><small>记录AI学习 · 探索AI应用</small></span>
     </a>
     <nav aria-label="主导航">
-      {site.nav.map((item) => (
-        <a class:list={{ active: item.href === '/' ? pathname === withBase('/') : pathname.startsWith(withBase(item.href)) }} href={withBase(item.href)}>{item.label}</a>
-      ))}
+      {site.nav.map((item) => {
+        const href = item.external ? item.href : withBase(item.href);
+        const active = !item.external && (item.href === '/' ? pathname === withBase('/') : pathname.startsWith(withBase(item.href)));
+        return <a class:list={{ active }} href={href} target={item.external ? '_blank' : undefined} rel={item.external ? 'noopener noreferrer' : undefined}>{item.label}</a>;
+      })}
     </nav>
     <button class="menu-toggle" type="button" aria-label="打开导航菜单" aria-expanded="false"><span>菜单</span><i aria-hidden="true"></i></button>
     <button class="drawer-backdrop" type="button" aria-label="关闭导航菜单"></button>

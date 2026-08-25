@@ -13,7 +13,8 @@ export const site = {
     { href: '/projects/', label: '作品' },
     { href: '/articles/', label: '文章' },
     { href: '/archive/', label: '归档' },
-    { href: '/about/', label: '关于' }
+    { href: '/about/', label: '关于' },
+    { href: 'https://lss.is-a.dev/workspace/', label: '工作台', external: true }
   ]
 };
 
