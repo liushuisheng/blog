@@ -28,7 +28,7 @@ npm run preview
 
 工作流在 `master` 分支有新提交时执行两套生产构建：
 
-- 使用 `https://lss.is-a.dev` 和 `/` 基础路径部署到 GitHub Pages。
+- 使用 `https://lss.is-a.dev/blog` 和 `/blog` 基础路径部署到 GitHub Pages。
 - 使用 `https://www.jidehub.top` 和 `/` 基础路径，通过 SSH 同步部署到当前腾讯云 CVM。
 
 首次启用 GitHub Pages 时，需要在仓库 Settings → Pages 中将 Source 设为 GitHub Actions。
